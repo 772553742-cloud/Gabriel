@@ -203,9 +203,18 @@ class SnakeGame {
         // 重新开始按钮
         const restartBtn = document.getElementById('restartBtn');
         if (restartBtn) {
-            restartBtn.addEventListener('click', () => {
+            restartBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
                 this.resetGame();
             });
+            
+            // 同时支持 touch 事件（移动端）
+            restartBtn.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                this.resetGame();
+            }, { passive: false });
         }
     }
     
