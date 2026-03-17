@@ -31,6 +31,37 @@ body {
     border: 3px solid #909090;
 }
 
+/* 游戏选择器 */
+.game-selector {
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.pixel-select {
+    background: #9bbc0f;
+    color: #0f380f;
+    border: 2px solid #0f380f;
+    border-radius: 4px;
+    padding: 8px 12px;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 8px;
+    cursor: pointer;
+    outline: none;
+    width: 100%;
+    max-width: 180px;
+}
+
+.pixel-select:hover {
+    background: #8bac0f;
+}
+
+.pixel-select option {
+    background: #9bbc0f;
+    color: #0f380f;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 8px;
+}
+
 .screen-container {
     background: #4a4a4a;
     padding: 15px;
@@ -92,6 +123,39 @@ body {
 .key.right { grid-column: 3; grid-row: 2; }
 .key.down { grid-column: 2; grid-row: 2; }
 
+/* 旋转键容器 */
+.rotate-key-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10px;
+}
+
+.key.rotate {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(145deg, #ff6b6b, #ee5a5a);
+    color: white;
+    border: 2px solid #c41e3a;
+    border-radius: 50%;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 
+        0 4px 8px rgba(0,0,0,0.3),
+        inset 0 1px 2px rgba(255,255,255,0.3);
+    user-select: none;
+}
+
+.key.rotate:active {
+    transform: translateY(2px);
+    box-shadow: 
+        0 2px 4px rgba(0,0,0,0.3),
+        inset 0 2px 4px rgba(0,0,0,0.2);
+}
+
 /* 控制按钮区域 */
 .control-buttons {
     margin-top: 15px;
@@ -104,7 +168,8 @@ body {
     color: white;
     padding: 12px 20px;
     border-radius: 10px;
-    font-size: 10px;
+    font-size: 12px;
+    font-family: "Microsoft YaHei", "黑体", "SimHei", sans-serif;
     cursor: pointer;
     box-shadow: 
         0 4px 8px rgba(0,0,0,0.3),

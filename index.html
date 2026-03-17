@@ -9,6 +9,12 @@
 <body>
     <div class="phone-container">
         <div class="phone-body">
+            <div class="game-selector">
+                <select id="gameSelect" class="pixel-select">
+                    <option value="snake">&#128013; 贪吃蛇</option>
+                    <option value="tetris">&#9632; 俄罗斯方块</option>
+                </select>
+            </div>
             <div class="screen-container">
                 <canvas id="gameCanvas" width="160" height="144"></canvas>
             </div>
@@ -19,15 +25,20 @@
                     <div class="key right" data-key="right">&#9654;</div>
                     <div class="key down" data-key="down">&#9660;</div>
                 </div>
+                <div class="rotate-key-wrapper">
+                    <div class="key rotate" id="rotateBtn" data-key="rotate">&#8634;</div>
+                </div>
             </div>
             <div class="control-buttons">
                 <div class="btn-restart" id="restartBtn">&#8634; 重新开始</div>
             </div>
-        </div>
     </div>
     <script src="js/constants.js"></script>
     <script src="js/audio.js"></script>
     <script src="js/renderer.js"></script>
-    <script src="js/game.js"></script>
+    <script src="js/tetris/pieces.js"></script>
+    <script src="js/tetris/renderer.js"></script>
+    <script src="js/tetris/game.js"></script>
+    <script src="js/game-manager.js"></script>
 </body>
 </html>
