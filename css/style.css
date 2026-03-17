@@ -91,3 +91,52 @@ body {
 .key.left { grid-column: 1; grid-row: 2; }
 .key.right { grid-column: 3; grid-row: 2; }
 .key.down { grid-column: 2; grid-row: 2; }
+
+/* 控制按钮区域 */
+.control-buttons {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+}
+
+.btn-restart {
+    background: linear-gradient(145deg, #ff6b6b, #ee5a5a);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: 10px;
+    cursor: pointer;
+    box-shadow: 
+        0 4px 8px rgba(0,0,0,0.3),
+        inset 0 1px 2px rgba(255,255,255,0.3);
+    user-select: none;
+    transition: all 0.1s ease;
+    text-align: center;
+    min-width: 120px;
+}
+
+.btn-restart:active {
+    transform: translateY(2px);
+    box-shadow: 
+        0 2px 4px rgba(0,0,0,0.3),
+        inset 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* 移动端适配 */
+@media (max-width: 480px) {
+    .phone-container {
+        padding: 10px;
+    }
+    
+    .phone-body {
+        width: 100%;
+        max-width: 320px;
+        padding: 20px 15px;
+    }
+    
+    .btn-restart {
+        padding: 15px 25px;
+        font-size: 12px;
+        min-width: 140px;
+    }
+}

@@ -199,6 +199,14 @@ class SnakeGame {
         this.canvas.addEventListener('click', () => {
             this.togglePause();
         });
+        
+        // 重新开始按钮
+        const restartBtn = document.getElementById('restartBtn');
+        if (restartBtn) {
+            restartBtn.addEventListener('click', () => {
+                this.resetGame();
+            });
+        }
     }
     
     startGameLoop() {
