@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>诺基亚贪吃蛇</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="phone-container">
+        <div class="phone-body">
+            <div class="screen-container">
+                <canvas id="gameCanvas" width="160" height="144"></canvas>
+            </div>
+            <div class="keypad">
+                <div class="nav-keys">
+                    <div class="key up" data-key="up">▲</div>
+                    <div class="key left" data-key="left">◀</div>
+                    <div class="key right" data-key="right">▶</div>
+                    <div class="key down" data-key="down">▼</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/constants.js"></script>
+    <script src="js/audio.js"></script>
+    <script src="js/renderer.js"></script>
+    <script src="js/game.js"></script>
+</body>
+</html>
