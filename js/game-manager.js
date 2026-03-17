@@ -38,6 +38,7 @@ class GameManager {
         
         // 开始游戏循环
         this.lastTime = 0;
+        this.snakeTimer = 0;
         requestAnimationFrame((time) => this.gameLoop(time));
     }
     
@@ -115,7 +116,11 @@ class GameManager {
         this.lastTime = currentTime;
         
         // 更新当前游戏
-        this.update(deltaTime);
+        if (this.currentGameType === 'snake') {
+            this.updateSnakeTimer(deltaTime);
+        } else {
+            this.update(deltaTime);
+        }
         
         // 渲染当前游戏
         this.render();
@@ -124,10 +129,21 @@ class GameManager {
     }
     
     update(deltaTime) {
-        if (this.currentGameType === 'snake') {
-            this.updateSnake();
-        } else if (this.currentGameType === 'tetris') {
+        if (this.currentGameType === 'tetris') {
             this.games.tetris.update(deltaTime);
+        }
+    }
+    
+    updateSnakeTimer(deltaTime) {
+        const game = this.games.snake;
+        if (game.gameOver || game.paused) return;
+        
+        this.snakeTimer += deltaTime;
+        
+        // 根据速度设置更新间隔
+        if (this.snakeTimer >= game.speed) {
+            this.updateSnake();
+            this.snakeTimer = 0;
         }
     }
     

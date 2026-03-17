@@ -7,14 +7,14 @@ class TetrisRenderer {
         this.ctx = canvas.getContext('2d');
         this.ctx.imageSmoothingEnabled = false;
         
-        // 游戏板尺寸
+        // 游戏板尺寸（适配 Canvas 160x144）
         this.cols = 10;
-        this.rows = 18;
+        this.rows = 16; // 减少行数以适应屏幕
         this.cellSize = 8;
         
         // 计算居中偏移
         this.offsetX = Math.floor((160 - this.cols * this.cellSize) / 2);
-        this.offsetY = 20; // 顶部留空给分数
+        this.offsetY = 24; // 顶部留空给分数
     }
     
     clear() {

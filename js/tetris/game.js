@@ -6,9 +6,9 @@ class TetrisGame {
         this.manager = gameManager;
         this.canvas = gameManager.canvas;
         
-        // 游戏板设置
+        // 游戏板设置（与渲染器一致）
         this.cols = 10;
-        this.rows = 18;
+        this.rows = 16;
         this.cellSize = 8;
         
         // 游戏状态
