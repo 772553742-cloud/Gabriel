@@ -12,9 +12,9 @@ class TetrisRenderer {
         this.rows = 16; // 减少行数以适应屏幕
         this.cellSize = 8;
         
-        // 计算居中偏移
+        // 计算居中偏移（向上移动4像素，确保底部可见）
         this.offsetX = Math.floor((160 - this.cols * this.cellSize) / 2);
-        this.offsetY = 24; // 顶部留空给分数
+        this.offsetY = 16; // 减少顶部留空
     }
     
     clear() {

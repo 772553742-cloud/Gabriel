@@ -9,8 +9,8 @@ const CONSTANTS = {
     CANVAS_WIDTH: 160,
     CANVAS_HEIGHT: 144,
     
-    // 游戏速度
-    INITIAL_SPEED: 150,
+    // 游戏速度（第一档，降低50%）
+    INITIAL_SPEED: 225,
     SPEED_INCREMENT: 10,
     SPEED_THRESHOLD: 5,
     MIN_SPEED: 80,
