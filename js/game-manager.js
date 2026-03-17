@@ -39,6 +39,15 @@ class GameManager {
         // 开始游戏循环
         this.lastTime = 0;
         this.snakeTimer = 0;
+        
+        // 长按状态
+        this.longPressState = {
+            active: false,
+            direction: null,
+            startTime: 0,
+            repeatDelay: 100 // 长按重复间隔
+        };
+        
         requestAnimationFrame((time) => this.gameLoop(time));
     }
     
@@ -274,27 +283,19 @@ class GameManager {
                 e.preventDefault();
             }
             
+            // 检测长按开始
+            const keyMap = {
+                'ArrowUp': 'up', 'w': 'up', 'W': 'up',
+                'ArrowDown': 'down', 's': 'down', 'S': 'down',
+                'ArrowLeft': 'left', 'a': 'left', 'A': 'left',
+                'ArrowRight': 'right', 'd': 'right', 'D': 'right'
+            };
+            
+            if (keyMap[e.key] && !this.longPressState.active) {
+                this.startLongPress(keyMap[e.key]);
+            }
+            
             switch(e.key) {
-                case 'ArrowUp':
-                case 'w':
-                case 'W':
-                    this.handleInput('up');
-                    break;
-                case 'ArrowDown':
-                case 's':
-                case 'S':
-                    this.handleInput('down');
-                    break;
-                case 'ArrowLeft':
-                case 'a':
-                case 'A':
-                    this.handleInput('left');
-                    break;
-                case 'ArrowRight':
-                case 'd':
-                case 'D':
-                    this.handleInput('right');
-                    break;
                 case ' ':
                     this.handleInput('pause');
                     break;
@@ -311,22 +312,67 @@ class GameManager {
             }
         });
         
-        // 触摸/点击按键
-        document.querySelectorAll('.key').forEach(key => {
-            key.addEventListener('click', () => {
-                const keyType = key.dataset.key;
-                if (keyType) {
-                    this.handleInput(keyType);
-                }
-            });
+        // 键盘释放事件
+        document.addEventListener('keyup', (e) => {
+            const keyMap = {
+                'ArrowUp': 'up', 'w': 'up', 'W': 'up',
+                'ArrowDown': 'down', 's': 'down', 'S': 'down',
+                'ArrowLeft': 'left', 'a': 'left', 'A': 'left',
+                'ArrowRight': 'right', 'd': 'right', 'D': 'right'
+            };
             
-            key.addEventListener('touchstart', (e) => {
-                e.preventDefault();
-                const keyType = key.dataset.key;
+            if (keyMap[e.key]) {
+                this.endLongPress();
+            }
+        });
+        
+        // 触摸/点击按键 - 支持长按
+        document.querySelectorAll('.key').forEach(key => {
+            let pressTimer = null;
+            let isLongPress = false;
+            const keyType = key.dataset.key;
+            
+            // 鼠标/触摸按下
+            const startPress = (e) => {
+                if (e.type === 'touchstart') {
+                    e.preventDefault();
+                }
+                isLongPress = false;
+                
+                // 立即执行一次
                 if (keyType) {
                     this.handleInput(keyType);
                 }
-            }, { passive: false });
+                
+                // 设置长按定时器
+                pressTimer = setTimeout(() => {
+                    isLongPress = true;
+                    if (['up', 'down', 'left', 'right'].includes(keyType)) {
+                        this.startLongPress(keyType);
+                    }
+                }, 200);
+            };
+            
+            // 鼠标/触摸释放
+            const endPress = () => {
+                if (pressTimer) {
+                    clearTimeout(pressTimer);
+                    pressTimer = null;
+                }
+                if (isLongPress) {
+                    this.endLongPress();
+                }
+            };
+            
+            // 鼠标事件
+            key.addEventListener('mousedown', startPress);
+            key.addEventListener('mouseup', endPress);
+            key.addEventListener('mouseleave', endPress);
+            
+            // 触摸事件
+            key.addEventListener('touchstart', startPress, { passive: false });
+            key.addEventListener('touchend', endPress);
+            key.addEventListener('touchcancel', endPress);
         });
         
         // 重新开始按钮
@@ -361,6 +407,55 @@ class GameManager {
     
     saveHighScore(game, score) {
         localStorage.setItem(`${game}HighScore`, score.toString());
+    }
+    
+    // 开始长按
+    startLongPress(direction) {
+        this.longPressState.active = true;
+        this.longPressState.direction = direction;
+        this.longPressState.startTime = Date.now();
+        
+        // 贪吃蛇：加快移动速度
+        if (this.currentGameType === 'snake') {
+            const game = this.games.snake;
+            // 临时加速到原来的 1/3
+            this.originalSpeed = game.speed;
+            game.speed = Math.max(50, game.speed / 3);
+        }
+        // 俄罗斯方块：加快下落速度
+        else if (this.currentGameType === 'tetris') {
+            const game = this.games.tetris;
+            this.originalDropInterval = game.dropInterval;
+            // 下方向键才加速下落
+            if (direction === 'down') {
+                game.dropInterval = 50; // 快速下落
+            }
+        }
+    }
+    
+    // 结束长按
+    endLongPress() {
+        if (!this.longPressState.active) return;
+        
+        // 恢复原始速度
+        if (this.currentGameType === 'snake') {
+            const game = this.games.snake;
+            if (this.originalSpeed) {
+                game.speed = this.originalSpeed;
+                this.originalSpeed = null;
+            }
+        }
+        // 俄罗斯方块：恢复下落速度
+        else if (this.currentGameType === 'tetris') {
+            const game = this.games.tetris;
+            if (this.originalDropInterval) {
+                game.dropInterval = this.originalDropInterval;
+                this.originalDropInterval = null;
+            }
+        }
+        
+        this.longPressState.active = false;
+        this.longPressState.direction = null;
     }
 }
 
